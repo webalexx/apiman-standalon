@@ -12,7 +12,7 @@ RUN cd $HOME/wildfly \
 RUN $HOME/wildfly/bin/add-user.sh admin admin123! --silent
 
 RUN rm -f $HOME/wildfly/standalone/configuration/apiman.properties
-COPY apiman.properties $HOME/wildfly/standalone/configuration
+COPY apiman.properties $HOME/wildfly/standalone/configuration/
 
 # Set the default command to run on boot
 ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone-apiman.xml"]
