@@ -2,3 +2,8 @@
 docker run -it -p 8080:8080 -p 8443:8443  webalexx/apiman-standalon:latest
 
 
+git add ./
+
+git commit -a -m "changes"
+
+git push

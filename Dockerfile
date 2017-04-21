@@ -5,7 +5,5 @@ ADD apiman.properties $JBOSS_HOME/standalone/configuration
 
 
 EXPOSE 8787
-EXPOSE 8080
-EXPOSE 8443
  
 CMD ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone-apiman.xml", "--debug"]
