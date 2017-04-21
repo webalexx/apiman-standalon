@@ -1,4 +1,4 @@
-FROM apiman/on-wildfly10
+FROM apiman/on-wildfly10:latest
 
 RUN $JBOSS_HOME/bin/add-user.sh admin admin123! --silent
 ADD apiman.properties $JBOSS_HOME/standalone/configuration
