@@ -10,3 +10,6 @@ git push
 
 
 i.	docker rmi $(docker images -a -q)
+
+#RUN $HOME/wildfly/bin/add-user.sh admin admin123! --silent
+#ADD ./apiman.properties $HOME/wildfly/standalone/configuration
