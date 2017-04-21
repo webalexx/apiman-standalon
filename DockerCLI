@@ -1,0 +1,63 @@
+
+http://apiman.default.svc.cluster.local/apimanui
+http://apiman-gateway.default.svc.cluster.local/apiman-gateway
+http://apiman.default.svc.cluster.local/apimanui-gateway
+http://keycloak.default.svc.cluster.local
+http://apiman-test.default.svc.cluster.local
+
+
+---------- HOW TO EXPORT REALM --------
+
+docker exec -ti keycloak /bin/bash
+cd /opt/jboss/keycloak/bin
+s
+Export 1 ./kcadm.sh get realms realm=apiman  --no-config --server http://keycloak.default.svc.cluster.local/auth --realm master --user keycloak --password keycloak
+
+
+Export 2 bin/standalone.sh -Dkeycloak.migration.action=export -Dkeycloak.migration.realmName=apiman -Dkeycloak.migration.usersExportStrategy=REALM_FILE  -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/opt/jboss/keycloak/apiman-realm.json -Djboss.http.port=8888
+
+
+# copy from a container to local
+kubectl cp container:/opt/jboss/keycloak/apiman-realm.json /path/to/local/apiman-realm.json
+
+---------- TEST API REQUEST/RESPONCE REWRITING ------------------------
+
+http://apiman-test.default.svc.cluster.local/apimanui
+http://apiman-test.default.svc.cluster.local:8443/apiman-gateway/Org/Service1/2.0/c/advertiser/accounts?advertiserId=9018
+
+
+In  http://apiman-test.default.svc.cluster.local/apiman-gateway/Org/Service1/2.0/c/advertiser/accounts?advertiserId=9018
+curl -X GET --header ‘Accept: */*’ -H “Host: xapi.net.yubyyu.com” http://ingenious-api.default.svc.cluster.local/c/advertiser/accounts?advertiserId=9018
+ 
+
+Out http://ingenious-api.default.svc.cluster.local/c/advertiser/accounts?advertiserId=9018
+http://192.168.99.100:8080/apiman-gateway/Org1/API1/1.0/swagger-ui.html
+
+
+http://xapi.net.yubyyu.com/swagger-ui.html
+
+
+curl -X GET --header ‘Accept: */*’ -H “Host: xapi.net.yubyyu.com” http://192.168.99.100:8080/apiman-gateway/Org1/API1/1.0/c/advertiser/accounts?advertiserId=9018
+
+curl -H "Content-Type: application/json" -H "authToken: 349ab29a-xtab-423b-a5hc-5623bc39b8c8" --data '{}' https://api.example.com/endpoint    
+
+https://httpbin.org/headers
+
+curl http://headcheck.default.svc.cluster.local/getheader
+
+^Host$
+
+http://apiman-test.default.svc.cluster.local
+
+http://192.168.99.100:8080/apiman-gateway/org1/api1/1.0
+
+http://xapi.net.yubyyu.com/c/advertiser/accounts?advertiserId=9018
+
+http://192.168.99.100:8080/apiman-gateway/org1/api3/1.0/c/advertiser/accounts?advertiserId=9018&apikey=47dea305-bde7-49b1-8f1b-7657f7450672
+
+http://192.168.99.100:8080/apiman-gateway/org1/api3/1.0/c/advertiser/accounts?advertiserId=9018&?apikey=47dea305-bde7-49b1-8f1b-7657f7450672
+
+http://apiman-gateway.default/apiman-gateway/IngeniousTechnologies/api2/1.0/c/advertiser/accounts?advertiserId=9018&?apikey=6e81b693-3def-453d-a58d-ae4cc5963262
+
+
+
