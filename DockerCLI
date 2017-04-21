@@ -7,3 +7,6 @@ git add ./
 git commit -a -m "changes"
 
 git push
+
+
+i.	docker rmi $(docker images -a -q)
