@@ -1,5 +1,5 @@
 
-docker run -it -p 8080:8080 -p 8443:8443  webalexx/apiman-standalon:latest
+
 
 
 git add ./
@@ -8,8 +8,5 @@ git commit -a -m "changes"
 
 git push
 
+docker rmi $(docker images -a -q)
 
-i.	docker rmi $(docker images -a -q)
-
-#RUN $HOME/wildfly/bin/add-user.sh admin admin123! --silent
-#ADD ./apiman.properties $HOME/wildfly/standalone/configuration
