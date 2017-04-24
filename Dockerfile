@@ -19,6 +19,8 @@ RUN export M2_HOME=$HOME/maven/apache-maven-3.5.0
 RUN export MAVEN_HOME=$HOME/maven/apache-maven-3.5.0
 RUN export PATH=${M2_HOME}/bin:${PATH}
 
+COPY io $HOME/.m2/repository/io
+
 RUN rm -f $HOME/wildfly/standalone/configuration/apiman.properties
 ADD apiman.properties $HOME/wildfly/standalone/configuration/
 
