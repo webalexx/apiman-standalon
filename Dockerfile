@@ -5,7 +5,6 @@ MAINTAINER Aleksei <webalexx@gmail.com>
 
 ENV APIMAN_VERSION 1.2.9.Final
 
-ROOT 
 
 RUN cd $HOME/wildfly \
  && curl http://downloads.jboss.org/apiman/$APIMAN_VERSION/apiman-distro-wildfly10-$APIMAN_VERSION-overlay.zip | bsdtar -xvf-
@@ -16,6 +15,8 @@ RUN mkdir /opt/maven350
 RUN cd /opt/maven350 && curl http://mirror.netcologne.de/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz  | bsdtar -xvf-
 
 #RUN rm -f /opt/maven350/apache-maven-3.5.0-bin.tar.gz
+
+USER jboss
 
 RUN export PATH=/opt/maven350/bin:$PATH
 
