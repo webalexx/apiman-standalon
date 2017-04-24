@@ -11,7 +11,7 @@ RUN cd $HOME/wildfly \
 RUN $HOME/wildfly/bin/add-user.sh admin admin123! --silent
 
 RUN mkdir /opt/maven350
-cd /opt/maven350 && curl http://mirror.netcologne.de/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz  | bsdtar -xvf-
+RUN cd /opt/maven350 && curl http://mirror.netcologne.de/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz  | bsdtar -xvf-
 
 #RUN rm -f /opt/maven350/apache-maven-3.5.0-bin.tar.gz
 
