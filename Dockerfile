@@ -11,12 +11,19 @@ RUN cd $HOME/wildfly \
 
 RUN $HOME/wildfly/bin/add-user.sh admin admin123! --silent
 
-RUN mkdir /opt/maven350
+USER jboss
+
+#RUN groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s /sbin/nologin -c "JBoss user" jboss && \
+#    chmod 755 /opt/maven350
+
+RUN cd /opt
+RUN mkdir maven350
+RUN chmod 0775 maven350
 RUN cd /opt/maven350 && curl http://mirror.netcologne.de/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz  | bsdtar -xvf-
 
 #RUN rm -f /opt/maven350/apache-maven-3.5.0-bin.tar.gz
 
-USER jboss
+
 
 RUN export PATH=/opt/maven350/bin:$PATH
 
