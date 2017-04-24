@@ -15,7 +15,7 @@ RUN cd /opt/maven350 && curl http://mirror.netcologne.de/apache.org/maven/maven-
 
 #RUN rm -f /opt/maven350/apache-maven-3.5.0-bin.tar.gz
 
-export PATH=/opt/maven350/bin:$PATH
+RUN export PATH=/opt/maven350/bin:$PATH
 
 RUN rm -f $HOME/wildfly/standalone/configuration/apiman.properties
 ADD apiman.properties $HOME/wildfly/standalone/configuration/
