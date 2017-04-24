@@ -8,7 +8,7 @@ ENV APIMAN_VERSION 1.2.9.Final
 RUN cd $HOME/wildfly \
  && curl http://downloads.jboss.org/apiman/$APIMAN_VERSION/apiman-distro-wildfly10-$APIMAN_VERSION-overlay.zip | bsdtar -xvf-
 
-RUN $HOME/wildfly/binc/add-user.sh admin admin123! --silent
+RUN $HOME/wildfly/bin/add-user.sh admin admin123! --silent
 
 RUN mkdir $HOME/wildfly/maven350
 RUN chmod 0775 $HOME/wildfly/maven350
@@ -24,7 +24,6 @@ RUN export PATH=${M2_HOME}/bin:${PATH}
 
 
 COPY io $HOME/wildfly/.m2/repository
-
 RUN rm -f $HOME/wildfly/standalone/configuration/apiman.properties
 ADD apiman.properties $HOME/wildfly/standalone/configuration/
 
