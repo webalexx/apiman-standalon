@@ -11,3 +11,13 @@ docker rmi $(docker images -a -q)
 
 docker run -it -p 8080:8080 -p 8443:8443 webalexx/apiman-standalon
 
+
+
+///
+
+cp -f -R /opt/jboss/maven/apache-maven-3.5.0 .
+
+ln -s apache-maven-3.5.0 maven
+
+rm  -f -R apache-maven-3.5.0
+
