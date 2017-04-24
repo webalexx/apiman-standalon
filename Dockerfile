@@ -5,6 +5,8 @@ MAINTAINER Aleksei <webalexx@gmail.com>
 
 ENV APIMAN_VERSION 1.2.9.Final
 
+ROOT 
+
 RUN cd $HOME/wildfly \
  && curl http://downloads.jboss.org/apiman/$APIMAN_VERSION/apiman-distro-wildfly10-$APIMAN_VERSION-overlay.zip | bsdtar -xvf-
 
