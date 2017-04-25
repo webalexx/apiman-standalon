@@ -5,6 +5,8 @@ MAINTAINER Aleksei <webalexx@gmail.com>
 
 ENV APIMAN_VERSION 1.2.9.Final
 
+USER root
+
 # Install packages necessary to run EAP
 RUN yum update -y && yum -y install xmlstarlet saxon augeas bsdtar unzip && yum clean all
 
