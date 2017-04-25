@@ -21,3 +21,12 @@ ln -s apache-maven-3.5.0 maven
 
 rm  -f -R apache-maven-3.5.0
 
+sudo apt-get install maven
+
+
+yum -y install maven && yum clean all
+
+groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s /sbin/nologin -c "JBoss user" jboss && \ chmod 755 /opt/jboss
+
+compgen -u
+
