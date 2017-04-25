@@ -25,6 +25,8 @@ ARG USER_HOME_DIR="/root"
 ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
+
+
 USER root
 #RUN yum  install -y maven 
 
@@ -35,6 +37,8 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && rm -f /tmp/apache-maven.tar.gz \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
+
+USER jboss
 
 RUN mkdir $USER_HOME_DIR/.m2
 RUN chmod 0775 $USER_HOME_DIR/.m2
@@ -53,6 +57,6 @@ VOLUME "$USER_HOME_DIR/.m2"
 #RUN /usr/local/bin/mvn-entrypoint.sh
 
 #CMD ["mvn"]
-USER jboss
+
 
 ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone-apiman.xml"]
