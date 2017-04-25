@@ -36,6 +36,11 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 
+RUN mkdir $USER_HOME_DIR/.m2
+RUN chmod 0775 $USER_HOME_DIR/.m2
+
+COPY repository $USER_HOME_DIR/.m2/repository
+
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
@@ -44,7 +49,6 @@ ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
 VOLUME "$USER_HOME_DIR/.m2"
 
-COPY repository $USER_HOME_DIR/.m2/repository
 
 #RUN /usr/local/bin/mvn-entrypoint.sh
 
