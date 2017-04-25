@@ -6,9 +6,9 @@ MAINTAINER Aleksei <webalexx@gmail.com>
 ENV APIMAN_VERSION 1.2.9.Final
 
 USER root
-
 # Install packages necessary to run EAP
 RUN yum update -y && yum -y install xmlstarlet saxon augeas bsdtar unzip && yum clean all
+USER jboss
 
 # Create a user and group used to launch processes
 # The user ID 1000 is the default for the first "regular" user on Fedora/RHEL,
@@ -16,17 +16,17 @@ RUN yum update -y && yum -y install xmlstarlet saxon augeas bsdtar unzip && yum 
 # making it easier to use volumes (no permission issues)
 RUN groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s /sbin/nologin -c "JBoss user" jboss && \ chmod 755 /opt/jboss
 
+USER root
 # Set the working directory to jboss' user home directory
 RUN yum -y install maven && yum clean all
+USER jboss
 
 RUN cd $HOME/wildfly \
  && curl http://downloads.jboss.org/apiman/$APIMAN_VERSION/apiman-distro-wildfly10-$APIMAN_VERSION-overlay.zip | bsdtar -xvf-
 
 RUN $HOME/wildfly/bin/add-user.sh admin admin123! --silent
 
-RUN cd $HOME && curl http://mirror.netcologne.de/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz  | bsdtar -xvf-
-
-
+#RUN cd $HOME && curl http://mirror.netcologne.de/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz  | bsdtar -xvf-
 
 #RUN mkdir $HOME/maven
 #RUN cp -f -R $HOME/apache-maven-3.5.0 $HOME/maven

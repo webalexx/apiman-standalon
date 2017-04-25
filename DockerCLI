@@ -30,3 +30,28 @@ groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s /sb
 
 compgen -u
 
+
+
+----- cleat all tables --- 
+
+delete from api_plans;
+delete from api_gateways;
+delete from api_versions;
+delete from api_defs;
+delete from apis;
+
+
+delete from plan_versions;
+delete from plans;
+
+delete from plugins;
+
+delete from client_versions;
+delete from clients;
+
+delete from contracts;
+
+delete from organizations;
+
+delete from gateways;
+
