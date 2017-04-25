@@ -22,15 +22,15 @@ ENV PATH /usr/share/apache-maven-${MAVEN_VERSION}/bin:${PATH}
 
 USER root
 #RUN yum  install -y maven 
-RUN apk --update add curl && \
+RUN yum --update add curl && \
     curl http://apache.mirror.anlx.net/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz > /usr/share/maven.tar.gz && \
     cd /usr/share && \
     tar xvzf maven.tar.gz && \
     rm -f maven.tar.gz
 
 
-
 ENV MAVEN_HOME /usr/share/maven
+
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
 #COPY mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
@@ -38,7 +38,7 @@ ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
 
 VOLUME "$USER_HOME_DIR/.m2"
 
-COPY io $JBOSS_HOME/.m2/repository/io
+COPY io $MAVEN_CONFIG/.m2/repository/io
 
 RUN /usr/local/bin/mvn-entrypoint.sh
 
