@@ -51,6 +51,8 @@ delete from clients;
 
 delete from contracts;
 
+delete from mebership;
+
 delete from organizations;
 
 delete from gateways;
