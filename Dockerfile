@@ -5,11 +5,6 @@ MAINTAINER Aleksei <webalexx@gmail.com>
 
 ENV APIMAN_VERSION 1.2.9.Final
 
-USER root
-# Install packages necessary to run EAP
-RUN yum update -y && yum -y install xmlstarlet saxon augeas bsdtar unzip && yum clean all
-USER jboss
-
 # Create a user and group used to launch processes
 # The user ID 1000 is the default for the first "regular" user on Fedora/RHEL,
 # so there is a high chance that this ID will be equal to the current user
@@ -18,7 +13,7 @@ RUN groupadd -r jboss -g 1000 && useradd -u 1000 -r -g jboss -m -d /opt/jboss -s
 
 USER root
 # Set the working directory to jboss' user home directory
-RUN yum -y install maven && yum clean all
+RUN yum  install -y maven 
 USER jboss
 
 RUN cd $HOME/wildfly \
