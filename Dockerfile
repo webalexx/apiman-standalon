@@ -1,10 +1,8 @@
-# Use Wildfly 10 image as the base
 FROM jboss/wildfly:10.0.0.Final
 
-MAINTAINER Aleksei <webalexx@gmail.com>
+MAINTAINER Eric Wittmann <eric.wittmann@redhat.com>
 
 ENV APIMAN_VERSION 1.2.9.Final
-
 
 RUN $JBOSS_HOME/bin/add-user.sh admin admin123! --silent
 
@@ -15,30 +13,39 @@ RUN cd $JBOSS_HOME \
  && rm apiman-distro-wildfly10-$APIMAN_VERSION-overlay.zip
 
 
-RUN rm -f $JBOSS_HOME/standalone/configuration/apiman.properties
-
+# Apiman properties
 ADD apiman.properties $JBOSS_HOME/standalone/configuration/
 
 
-USER root
-# Set the working directory to jboss' user home directory
-RUN yum  install -y maven 
-USER jboss
-
-
-#RUN cd $HOME && curl http://mirror.netcologne.de/apache.org/maven/maven-3/3.5.0/binaries/apache-maven-3.5.0-bin.tar.gz  | bsdtar -xvf-
-#RUN mkdir $HOME/maven
-#RUN cp -f -R $HOME/apache-maven-3.5.0 $HOME/maven
-#RUN rm -f -R apache-maven-3.5.0
-#RUN export M2_HOME=$HOME/maven/apache-maven-3.5.0
-#RUN export MAVEN_HOME=$HOME/maven/apache-maven-3.5.0
-#RUN export PATH=${M2_HOME}/bin:${PATH}
+ARG MAVEN_VERSION=3.5.0
+ARG USER_HOME_DIR="/root"
+ARG SHA=beb91419245395bd69a4a6edad5ca3ec1a8b64e41457672dc687c173a495f034
+ARG BASE_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 USER root
-COPY io $HOME/.m2/repository/io
+#RUN yum  install -y maven 
+RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
+  && curl -fsSL -o /tmp/apache-maven.tar.gz ${BASE_URL}/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+  && echo "${SHA}  /tmp/apache-maven.tar.gz" | sha256sum -c - \
+  && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
+  && rm -f /tmp/apache-maven.tar.gz \
+  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+
+
+
+ENV MAVEN_HOME /usr/share/maven
+ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
+
+COPY mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
+COPY settings-docker.xml /usr/share/maven/ref/
+
+VOLUME "$USER_HOME_DIR/.m2"
+
+COPY io $JBOSS_HOME/.m2/repository/io
+
+RUN /usr/local/bin/mvn-entrypoint.sh
+
+CMD ["mvn"]
 USER jboss
 
-#VOLUME ["/opt"]
-
-# Set the default command to run on boot
 ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone-apiman.xml"]
