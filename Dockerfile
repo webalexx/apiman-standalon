@@ -46,9 +46,9 @@ VOLUME "$USER_HOME_DIR/.m2"
 
 COPY repository $USER_HOME_DIR/.m2/repository
 
-RUN /usr/local/bin/mvn-entrypoint.sh
+#RUN /usr/local/bin/mvn-entrypoint.sh
 
-CMD ["mvn"]
+#CMD ["mvn"]
 USER jboss
 
 ENTRYPOINT ["/opt/jboss/wildfly/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-c", "standalone-apiman.xml"]
