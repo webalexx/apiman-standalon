@@ -13,6 +13,7 @@ RUN cd $JBOSS_HOME \
  && rm apiman-distro-wildfly10-$APIMAN_VERSION-overlay.zip
 
 
+
 # Apiman properties
 ADD apiman.properties $JBOSS_HOME/standalone/configuration/
 
